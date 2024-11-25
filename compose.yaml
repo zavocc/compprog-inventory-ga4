@@ -23,19 +23,12 @@ services:
     expose:
       - 8443
     restart: unless-stopped
+    networks:
+      - shared-network
 
-  caddy:
-    image: caddy:2.9-alpine
-    restart: unless-stopped
-    cap_add:
-      - NET_ADMIN
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - caddy_data_compprog:/data
-      - caddy_config_compprog:/config
+networks:
+  shared_network:
+    external: true
 
 volumes:
   caddy_data_compprog:
