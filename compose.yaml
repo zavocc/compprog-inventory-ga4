@@ -27,7 +27,7 @@ services:
       - shared-network
 
 networks:
-  shared_network:
+  shared-network:
     external: true
 
 volumes:
