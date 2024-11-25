@@ -1,0 +1,42 @@
+---
+services:
+  compprog-inventory-codeserver:
+    image: lscr.io/linuxserver/code-server:latest
+    container_name: compprog-inventory-codeserver
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - PASSWORD=p4ssw0rd
+      - SUDO_PASSWORD=p4ssw0rd
+      - PROXY_DOMAIN=gr4.inventory.compprog.geraldobtd.me
+      - DEFAULT_WORKSPACE=/config/workspace
+    volumes:
+      # User 1 config
+      - ./config-inventory:/config
+
+      # User 1 workspace
+      - ./workspace-inventory:/config/workspace
+
+      # General share directory
+      - ./share:/host_share:ro
+    expose:
+      - 8443
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2.9-alpine
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data_compprog:/data
+      - caddy_config_compprog:/config
+
+volumes:
+  caddy_data_compprog:
+  caddy_config_compprog:

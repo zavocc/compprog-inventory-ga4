@@ -1,0 +1,3 @@
+config-inventory/
+workspace-inventory/
+**/__pycache__/
