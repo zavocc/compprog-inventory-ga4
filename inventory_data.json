@@ -1,0 +1,17 @@
+{
+    "product_id_1": {
+        "name": "iPhone 15 Pro Max",
+        "quantity": 100,
+        "production_pending": false
+    },
+    "product_id_2": {
+        "name": "MacBook Pro",
+        "quantity": 39,
+        "production_pending": false
+    },
+    "product_id_3": {
+        "name": "Rabbit R1",
+        "quantity": 2,
+        "production_pending": true
+    }
+}
