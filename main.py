@@ -155,7 +155,8 @@ def main():
         print("Exiting the program. Have a great day!")
         exit(0)
     else:
-        print("Invalid choice. Please try again.")
+        print("Invalid choice.")
+        exit(2)
 
 if __name__ == "__main__":
     main()
