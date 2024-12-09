@@ -69,11 +69,10 @@ def buy_product():
         product_id = int(input("Enter the Product ID to buy: "))
         if product_id in all_products:
             name = input("Hello customer! Before I make any transactions, please enter your name: ")
-            # Remove this block that subtracts 1
-            # if all_products[product_id]['stock'] > 0:
-            #     all_products[product_id]['stock'] -= 1
-            # else:
-            #     raise ValueError("Sorry, this product is out of stock.")
+
+            # If the name is empty, default to "Customer"
+            if name == "":
+                name = "Customer"
             
             # Just check if there's stock available
             if all_products[product_id]['stock'] <= 0:
@@ -103,13 +102,39 @@ def add_products():
             raise ValueError(f"Product ID already exists for ID {product_id} with product name {all_products[product_id]['name']}, please try again.")
 
         product_name = input("Enter Product Name: ")
+
+        # Check if product name is empty
+        if product_name == "":
+            raise ValueError("Product name cannot be empty, please try again.")
+
         product_stock = int(input("Enter Product Stock: "))
+
+        # If the product stock is empty then its 0
+        if product_stock == "":
+            product_stock = 0
+
         product_price = float(input("Enter Product Price: "))
+
+        # If the product price is empty then its free (aka 0)
+        if product_price == "":
+            product_price = 0.00
+
         all_products[product_id] = {
             "name": product_name,
             "stock": product_stock,
             "price": product_price
         }
+
+        # Print the brief summary of the product added
+        print("-" * 40)
+        print("PRODUCT ADDED SUMMARY:")
+        print(" " * 35)
+        print(f"Product ID: {product_id}")
+        print(f"Name: {product_name}")
+        print(f"Stock: {product_stock}")
+        print(f"Price: ₱{product_price}")
+        print("-" * 40, end="\n")
+
         print("Product added successfully!")
 
         exit(0)
@@ -118,20 +143,19 @@ def add_products():
         print(f"\nAn error has occured: {e}\nPlease make sure the input is valid, try putting a valid value like a number")
 
 def main():
-    while True:
-        banner()
-        choice = input("Enter your choice (1-4): ")
-        if choice == "1":
-            display_all()
-        elif choice == "2":
-            buy_product()
-        elif choice == "3":
-            add_products()
-        elif choice == "4":
-            print("Exiting the program. Have a great day!")
-            break
-        else:
-            print("Invalid choice. Please try again.")
+    banner()
+    choice = input("Enter your choice (1-4): ")
+    if choice == "1":
+        display_all()
+    elif choice == "2":
+        buy_product()
+    elif choice == "3":
+        add_products()
+    elif choice == "4":
+        print("Exiting the program. Have a great day!")
+        exit(0)
+    else:
+        print("Invalid choice. Please try again.")
 
 if __name__ == "__main__":
     main()
