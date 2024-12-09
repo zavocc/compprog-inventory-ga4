@@ -48,7 +48,7 @@ def display_all():
         print("-" * 40)
 
 # Display the order summary
-def order_summary(prodid, name):
+def order_summary(prodid, name, newquantity):
     product = all_products[prodid]
     print("_" * 35)
     print("Lola Nening's Store Order Summary")
@@ -56,7 +56,8 @@ def order_summary(prodid, name):
     print(f"Order Summary (Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')})")
     print(f"Customer Name: {name}")
     print(f"Product: {product['name']}")
-    print(f"Quantity: 1")
+    print(f"Current Stock Quantity: {product['stock']}")
+    print(f"Quantity Requested: {newquantity}")
     print(f"Total Price: {product['price']}")
     print("_" * 35)
     print("Thank you for shopping with us!", end="\n\n")
@@ -65,31 +66,32 @@ def order_summary(prodid, name):
 def buy_product():
     display_all()
     try:
-        # We check if the stock is greater than 0
         product_id = int(input("Enter the Product ID to buy: "))
         if product_id in all_products:
             name = input("Hello customer! Before I make any transactions, please enter your name: ")
-            if all_products[product_id]['stock'] > 0:
-                all_products[product_id]['stock'] -= 1
-            else:
+            # Remove this block that subtracts 1
+            # if all_products[product_id]['stock'] > 0:
+            #     all_products[product_id]['stock'] -= 1
+            # else:
+            #     raise ValueError("Sorry, this product is out of stock.")
+            
+            # Just check if there's stock available
+            if all_products[product_id]['stock'] <= 0:
                 raise ValueError("Sorry, this product is out of stock.")
         else:
             raise ValueError(f"Invalid Product ID {product_id}. Please try again.")
 
-        # Ask the user how much quantity they want to buy
-        # If the quantity is greater than the stock, then we cannot proceed with the transaction
         quantitytobuy = int(input("Enter the quantity you want to buy: "))
         if quantitytobuy > all_products[product_id]['stock']:
             raise ValueError("Sorry, we do not have enough stock for this product.")
 
-        # Set the new stock after the transaction
+        # This is the only place we should subtract from stock
         all_products[product_id]['stock'] -= quantitytobuy
 
-        # Show the receipt
-        order_summary(product_id, name)
+        order_summary(product_id, name, quantitytobuy)
+
+        exit(0)
     except ValueError as e:
-        # Clear the screen and show the error message
-        #clear_screen()
         print(f"\nAn error has occured: {e}\nPlease make sure the input is valid, try putting a valid value like a number")
     
 def add_products():
@@ -109,6 +111,8 @@ def add_products():
             "price": product_price
         }
         print("Product added successfully!")
+
+        exit(0)
     except ValueError as e:
         #clear_screen()
         print(f"\nAn error has occured: {e}\nPlease make sure the input is valid, try putting a valid value like a number")
